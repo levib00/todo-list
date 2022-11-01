@@ -13,7 +13,7 @@
         <div id="hero">
             TODO List
         </div>
-        <div>Project Manager <img src="" alt=""></div>
+        <div id="profile">Project Manager <img id="profile-image" src="/dist/images/logo.png" alt=""></div>
     </header>
     <div id="content">
         <div id="sidebar">
@@ -29,10 +29,56 @@
                 <div id="project-date">DD/MM/YYYY</div>
             </div>
             <div id="project-content">
-                <div id="checklist"><div class="subtitle">Checklist</div></div>
-                <div id="priority"><div class="subtitle">Priority</div>might make this column a separate div to make priority slightly larger like 1fr prio 2fr notes</div>
-                <div id="description"><div class="subtitle">Description</div></div>
-                <div id="notes"><div class="subtitle">Notes</div></div>
+                <div id="checklist" class="project-box">
+                    <div class="subtitle">Checklist</div>
+                    <div class="checklist-item">
+                        <button class="check-button">v</button>
+                        <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                    </div>
+                    <div class="checklist-item">
+                        <button class="check-button">v</button>
+                        <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                    </div>
+                    <div class="checklist-item">
+                        <button class="check-button">v</button>
+                        <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                    </div>
+                    <div class="checklist-item">
+                        <button class="check-button">v</button>
+                        <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                    </div>
+                </div>
+                <div id="priority" class="project-box">
+                    <div class="subtitle">Priority</div>
+                    <div id="prio-grid">
+                        <div class="prio-in-box">
+                            <div class="project-text">Low</div>
+                        </div>
+                        <div class="prio-in-box">
+                            <div class="project-text">Medium</div>
+                        </div>
+                        <div class="prio-in-box">
+                            <div class="project-text">High</div>
+                        </div>
+                        <div class="prio-in-box">
+                            <button class="prio-button" id="low-prio">O</button>
+                        </div>
+                        <div class="prio-in-box">
+                            <button class="prio-button" id="medium-prio">!</button>
+                        </div>
+                        <div class="prio-in-box">
+                            <button class="prio-button" id="high-prio">!!</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="description" class="project-box">
+                    <div class="subtitle">Description</div>
+                    <p class="project-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec suscipit ex. Aenean dui ligula, sollicitudin sed nulla quis, gravida accumsan diam. Nunc viverra posuere augue quis fringilla. Vestibulum tempus sed sem vehicula sollicitudin. Proin convallis dignissim augue eget condimentum. Nam vel maximus metus, aliquam cursus odio. Curabitur sit amet luctus erat. Praesent mollis venenatis pharetra. Curabitur feugiat sem ullamcorper elementum faucibus. Mauris vulputate nisi leo, sed tincidunt enim dapibus vitae. Phasellus et libero posuere, auctor purus nec, feugiat odio. Ut efficitur hendrerit elit nec dignissim. Fusce in massa eget nisi volutpat varius. </p>
+                </div>
+                <div id="notes" class="project-box">
+                    <div class="subtitle">Notes</div>
+                    <p class="project-text">Cras orci eros, volutpat malesuada leo ut, gravida ultricies dolor. Phasellus accumsan mollis vestibulum. Aliquam sollicitudin mollis felis quis aliquam. Suspendisse id odio aliquam mi pretium vulputate sit amet at est.</p>
+                </div>
             </div>
         </div>
     </div>
