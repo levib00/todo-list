@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 html, body {
     padding: 0;
     margin: 0;
@@ -5,8 +7,7 @@ html, body {
     margin-right: calc(-1 * (100vw - 100%));
     overflow-x: hidden;
     height:100%;
-}
-html {
+    font-family: 'Roboto', sans-serif;
 }
 #header {
     background-color:blueviolet;
@@ -20,6 +21,15 @@ html {
 #hero {
     font-size: 2.2rem;
 }
+#profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+#profile-image {
+    height: 80px;
+    border-radius: 90px;
+}
 #content {
     display: grid;
     grid-template-columns: 350px 1fr;
@@ -27,7 +37,7 @@ html {
     height: calc(100% - 100px);
 }
 .subtitle {
-    font-size: 1.9rem;
+    font-size: 2rem;
 }
 #sidebar {
     background-color: blue;
@@ -66,6 +76,17 @@ button:hover {
 #checklist {
     grid-row: 1/3 ;
     background-color:gold ;
+    display: flex;
+    flex-direction: column;
+}
+.checklist-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    align-items: center;
+}
+.check-button {
+    height: 20px;
 }
 #description {
     grid-row: 3/5;
@@ -73,8 +94,50 @@ button:hover {
 }
 #priority {
     grid-row: 1/2;
-    background-color:hotpink;
+    background-color:azure;
 }
 #notes {
     grid-row: 2/5;
+}
+.project-box {
+    padding: 15px;
+}
+.project-text {
+    font-size: 1.5rem;
+}
+#prio-grid {
+    display: grid;
+    grid-template: 1fr 1fr/1fr 1fr 1fr;
+    height: calc(100% - 42px);
+}
+.prio-in-box {
+    border: black 2px solid;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.prio-button {
+    border:none;
+    background-color: azure;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+#high-prio:hover {
+    text-shadow: brown 0px 0px 8px;
+}
+#medium-prio:hover {
+    text-shadow:#f2ff00 0px 0px 8px;
+}
+#low-prio:hover {
+    text-shadow: lime 0px 0px 8px;
+}
+#low-prio {
+    color: green;
+}
+#medium-prio {
+    color: yellow;
+}
+#high-prio {
+    color: red;
 }
