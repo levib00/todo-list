@@ -32,19 +32,31 @@
                 <div id="checklist" class="project-box">
                     <div class="subtitle">Checklist</div>
                     <div class="checklist-item">
-                        <button class="check-button">v</button>
+                        <label class="checkbox-container">
+                            <input type="checkbox" class="check-button">
+                            <span class="checkmark"></span>
+                        </label>
                         <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
                     </div>
                     <div class="checklist-item">
-                        <button class="check-button">v</button>
+                        <label class="checkbox-container">
+                            <input type="checkbox" class="check-button">
+                            <span class="checkmark"></span>
+                        </label>
                         <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
                     </div>
                     <div class="checklist-item">
-                        <button class="check-button">v</button>
+                        <label class="checkbox-container">
+                            <input type="checkbox" class="check-button">
+                            <span class="checkmark"></span>
+                        </label>
                         <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
                     </div>
                     <div class="checklist-item">
-                        <button class="check-button">v</button>
+                        <label class="checkbox-container">
+                            <input type="checkbox" class="check-button">
+                            <span class="checkmark"></span>
+                        </label>
                         <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
                     </div>
                 </div>
@@ -52,22 +64,22 @@
                     <div class="subtitle">Priority</div>
                     <div id="prio-grid">
                         <div class="prio-in-box">
-                            <div class="project-text">Low</div>
+                            <label for="low-prio" class="project-text">Low</label>
+                        </div>
+                        <div class="prio-in-box prio-mid">
+                            <label for="medium-prio" class="project-text">Med</label>
                         </div>
                         <div class="prio-in-box">
-                            <div class="project-text">Medium</div>
+                            <label for="high-prio" class="project-text">High</label>
                         </div>
-                        <div class="prio-in-box">
-                            <div class="project-text">High</div>
+                        <div class="prio-in-box prio-bottom">
+                            <input type="radio" name="priority" class="prio-button" id="low-prio">
                         </div>
-                        <div class="prio-in-box">
-                            <button class="prio-button" id="low-prio">O</button>
+                        <div class="prio-in-box prio-bottom prio-mid">
+                            <input type="radio" name="priority" class="prio-button" id="medium-prio">
                         </div>
-                        <div class="prio-in-box">
-                            <button class="prio-button" id="medium-prio">!</button>
-                        </div>
-                        <div class="prio-in-box">
-                            <button class="prio-button" id="high-prio">!!</button>
+                        <div class="prio-in-box prio-bottom">
+                            <input type="radio" name="priority" class="prio-button" id="high-prio">
                         </div>
                     </div>
                 </div>
