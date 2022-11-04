@@ -6,14 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
     <link rel="stylesheet" href="./styles/styles.css">
-    <script src="main.js"></script>
+    <script defer src="main.js"></script>
 </head>
 <body>
+    <div id="form-pop">
+        <form action="" id="my-form">
+            <button type="button" class="align-close-button flex-container" id="close-form">X</button>
+            <div class="align-top-line flex-container"><div class="form-title">New Project</div><div>*Required</div></div>
+            <ul class="flex-container">
+                <li class="flex-container">
+                    <label for="project-name-in">Project Name:</label>
+                    <div class="align-right"><input type="text" name="project-name-in" id="project-name-in" required> *</div>
+                </li>
+                <li class="flex-container">
+                    <label for="due-date-in">Due Date:</label>
+                    <div class="align-right"><input type="date" name="due-date-in" id="due-date-in" required> *</div>
+                </li>
+                <li class="flex-container">
+                    <label for="book-status-in">Priority:</label>
+                    <div class="align-right align-checkbox">
+                        <select id="priority-in" required>
+                            <option value="low">Low</option>
+                            <option value="med">Med</option>
+                            <option value="high">High</option>
+                        </select> *
+                    </div>
+                </li>
+                <button id="add-button" class="button form-button">Add+</button>
+            </ul>
+        </form>
+    </div>
     <header id="header">
         <div id="hero">
             TODO List
         </div>
-        <div id="profile">Project Manager <img id="profile-image" src="/dist/images/logo.png" alt=""></div>
+        <div id="profile">Project Manager<img id="profile-image" src="/dist/images/logo.png" alt=""></div>
     </header>
     <div id="content">
         <div id="sidebar">
@@ -31,33 +58,35 @@
             <div id="project-content">
                 <div id="checklist" class="project-box">
                     <div class="subtitle">Checklist</div>
-                    <div class="checklist-item">
-                        <label class="checkbox-container">
-                            <input type="checkbox" class="check-button">
-                            <span class="checkmark"></span>
-                        </label>
-                        <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
-                    </div>
-                    <div class="checklist-item">
-                        <label class="checkbox-container">
-                            <input type="checkbox" class="check-button">
-                            <span class="checkmark"></span>
-                        </label>
-                        <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
-                    </div>
-                    <div class="checklist-item">
-                        <label class="checkbox-container">
-                            <input type="checkbox" class="check-button">
-                            <span class="checkmark"></span>
-                        </label>
-                        <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
-                    </div>
-                    <div class="checklist-item">
-                        <label class="checkbox-container">
-                            <input type="checkbox" class="check-button">
-                            <span class="checkmark"></span>
-                        </label>
-                        <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                    <div class="project-box-contents">
+                        <div class="checklist-item">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="check-button">
+                                <span class="checkmark"></span>
+                            </label>
+                            <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="check-button">
+                                <span class="checkmark"></span>
+                            </label>
+                            <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="check-button">
+                                <span class="checkmark"></span>
+                            </label>
+                            <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="check-button">
+                                <span class="checkmark"></span>
+                            </label>
+                            <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
+                        </div>
                     </div>
                 </div>
                 <div id="priority" class="project-box">
@@ -85,11 +114,15 @@
                 </div>
                 <div id="description" class="project-box">
                     <div class="subtitle">Description</div>
-                    <p class="project-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec suscipit ex. Aenean dui ligula, sollicitudin sed nulla quis, gravida accumsan diam. Nunc viverra posuere augue quis fringilla. Vestibulum tempus sed sem vehicula sollicitudin. Proin convallis dignissim augue eget condimentum. Nam vel maximus metus, aliquam cursus odio. Curabitur sit amet luctus erat. Praesent mollis venenatis pharetra. Curabitur feugiat sem ullamcorper elementum faucibus. Mauris vulputate nisi leo, sed tincidunt enim dapibus vitae. Phasellus et libero posuere, auctor purus nec, feugiat odio. Ut efficitur hendrerit elit nec dignissim. Fusce in massa eget nisi volutpat varius. </p>
+                    <div class="project-box-contents">
+                        <p class="project-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec suscipit ex. Aenean dui ligula, sollicitudin sed nulla quis, gravida accumsan diam. Nunc viverra posuere augue quis fringilla. Vestibulum tempus sed sem vehicula sollicitudin. Proin convallis dignissim augue eget condimentum. Nam vel maximus metus, aliquam cursus odio. Curabitur sit amet luctus erat. Praesent mollis venenatis pharetra. Curabitur feugiat sem ullamcorper elementum faucibus. Mauris vulputate nisi leo, sed tincidunt enim dapibus vitae. Phasellus et libero posuere, auctor purus nec, feugiat odio. Ut efficitur hendrerit elit nec dignissim. Fusce in massa eget nisi volutpat varius. </p>
+                    </div>
                 </div>
                 <div id="notes" class="project-box">
                     <div class="subtitle">Notes</div>
-                    <p class="project-text">Cras orci eros, volutpat malesuada leo ut, gravida ultricies dolor. Phasellus accumsan mollis vestibulum. Aliquam sollicitudin mollis felis quis aliquam. Suspendisse id odio aliquam mi pretium vulputate sit amet at est.</p>
+                    <div class="project-box-contents">
+                        <p class="project-text">Cras orci eros, volutpat malesuada leo ut, gravida ultricies dolor. Phasellus accumsan mollis vestibulum. Aliquam sollicitudin mollis felis quis aliquam. Suspendisse id odio aliquam mi pretium vulputate sit amet at est.</p>
+                    </div>
                 </div>
             </div>
         </div>
