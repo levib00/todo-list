@@ -1,9 +1,11 @@
 export default function popupControl() {
-    getElements.domElements.closeButton.addEventListener("click", functions.closeFormButton, false);
-    getElements.domElements.addNewButton.addEventListener('click', functions.showForm,false )
+    getElements.domElements.closeButton.addEventListener("click", popupFunctions.closeFormButton, false);
+    getElements.domElements.addNewButton.addEventListener('click', popupFunctions.showForm,false )
 }
+export {popupFunctions}
 
-const functions = (() => {
+
+const popupFunctions = (() => {
     function closeFormButton() {
         console.log(document.getElementById("project-name-in").value)
         document.getElementById("project-name-in").innerText = "";
@@ -29,6 +31,7 @@ const functions = (() => {
     }
     return {closeForm, showForm, closeFormButton}
 })()
+
 
 const getElements = (() => {
     const domElements = {
