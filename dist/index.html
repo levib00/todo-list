@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="form-pop">
-        <form action="" id="my-form">
+        <form action="" id="my-form" onsubmit="return false">
             <button type="button" class="align-close-button flex-container" id="close-form">X</button>
             <div class="align-top-line flex-container"><div class="form-title">New Project</div><div>*Required</div></div>
             <ul class="flex-container">
@@ -47,18 +47,17 @@
             <div class="subtitle">Projects</div>
             <div id="dates-container">
                 <button id="add-new-button">+ Add New Project</button>
-                <button class="project">Project #1</button>
             </div>
         </div>
         <div id="project-area">
             <div id="project-header">
-                <div class="subtitle">Project #1</div>
+                <div class="subtitle" id="project-header-subtitle">Project #1</div>
                 <div id="project-date">DD/MM/YYYY</div>
             </div>
             <div id="project-content">
                 <div id="checklist" class="project-box">
                     <div class="subtitle">Checklist</div>
-                    <div class="project-box-contents">
+                    <div class="project-box-contents" id="checklist-text">
                         <div class="checklist-item">
                             <label class="checkbox-container">
                                 <input type="checkbox" class="check-button">
@@ -115,13 +114,13 @@
                 <div id="description" class="project-box">
                     <div class="subtitle">Description</div>
                     <div class="project-box-contents">
-                        <p class="project-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec suscipit ex. Aenean dui ligula, sollicitudin sed nulla quis, gravida accumsan diam. Nunc viverra posuere augue quis fringilla. Vestibulum tempus sed sem vehicula sollicitudin. Proin convallis dignissim augue eget condimentum. Nam vel maximus metus, aliquam cursus odio. Curabitur sit amet luctus erat. Praesent mollis venenatis pharetra. Curabitur feugiat sem ullamcorper elementum faucibus. Mauris vulputate nisi leo, sed tincidunt enim dapibus vitae. Phasellus et libero posuere, auctor purus nec, feugiat odio. Ut efficitur hendrerit elit nec dignissim. Fusce in massa eget nisi volutpat varius. </p>
+                        <p class="project-text" id="description-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec suscipit ex. Aenean dui ligula, sollicitudin sed nulla quis, gravida accumsan diam. Nunc viverra posuere augue quis fringilla. Vestibulum tempus sed sem vehicula sollicitudin. Proin convallis dignissim augue eget condimentum. Nam vel maximus metus, aliquam cursus odio. Curabitur sit amet luctus erat. Praesent mollis venenatis pharetra. Curabitur feugiat sem ullamcorper elementum faucibus. Mauris vulputate nisi leo, sed tincidunt enim dapibus vitae. Phasellus et libero posuere, auctor purus nec, feugiat odio. Ut efficitur hendrerit elit nec dignissim. Fusce in massa eget nisi volutpat varius. </p>
                     </div>
                 </div>
                 <div id="notes" class="project-box">
                     <div class="subtitle">Notes</div>
                     <div class="project-box-contents">
-                        <p class="project-text">Cras orci eros, volutpat malesuada leo ut, gravida ultricies dolor. Phasellus accumsan mollis vestibulum. Aliquam sollicitudin mollis felis quis aliquam. Suspendisse id odio aliquam mi pretium vulputate sit amet at est.</p>
+                        <p class="project-text" id="notes-text">Cras orci eros, volutpat malesuada leo ut, gravida ultricies dolor. Phasellus accumsan mollis vestibulum. Aliquam sollicitudin mollis felis quis aliquam. Suspendisse id odio aliquam mi pretium vulputate sit amet at est.</p>
                     </div>
                 </div>
             </div>
