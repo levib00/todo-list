@@ -1,10 +1,11 @@
-import {popupFunctions} from './popup-control'
+import { popupFunctions } from './popup-control'
+import { addNewProject, updateDom } from './generate-project'
 
 export default function generateNewListing() {
-    getDomElements.domElements.addButton.addEventListener('click',generateListingFunctions.handleCreateListing, false)
+    getListingElements.domElements.addButton.addEventListener('click',generateListingFunctions.handleCreateListing, false)
 }
 
-const getDomElements = (() => {
+const getListingElements = (() => {
     const domElements = {
         projectNameIn : document.getElementById('project-name-in'),
         dueDateIn : document.getElementById('due-date-in'),
@@ -15,27 +16,38 @@ const getDomElements = (() => {
     return {domElements}
 })()
 
+export { getListingElements }
+
+
 const generateListingFunctions = (() => {
+    let id = 0;
     function handleCreateListing() {
         createDateTab()
+        addNewProject()
         createProjectButton()
     }
     function createProjectButton() {
-        console.log(getDomElements.domElements.dueDateIn.value)
+        console.log(getListingElements.domElements.dueDateIn.value)
         const newButton = document.createElement('button');
         newButton.setAttribute('class','project');
-        newButton.innerText = getDomElements.domElements.projectNameIn.value;
-        let tempDueDate = document.getElementById(getDomElements.domElements.dueDateIn.value)
+        newButton.setAttribute('id',`${id}`)
+        id++
+        newButton.innerText = getListingElements.domElements.projectNameIn.value;
+        newButton.addEventListener('click',updateDom, false)
+        
+        let tempDueDate = document.getElementById(getListingElements.domElements.dueDateIn.value)
         tempDueDate.appendChild(newButton);
+        
         popupFunctions.closeForm()
+        
     }
     function createDateTab() {
-        if (!getDomElements.domElements.dateList.innerHTML.includes(getDomElements.domElements.dueDateIn.value)) {
+        if (!getListingElements.domElements.dateList.innerHTML.includes(getListingElements.domElements.dueDateIn.value)) {
             let newTab = document.createElement('div');
             newTab.setAttribute('class','date-sub-header subtitle')
-            newTab.setAttribute('id',getDomElements.domElements.dueDateIn.value)
-            newTab.innerText = getDomElements.domElements.dueDateIn.value;
-            getDomElements.domElements.dateList.appendChild(newTab)
+            newTab.setAttribute('id',getListingElements.domElements.dueDateIn.value)
+            newTab.innerText = getListingElements.domElements.dueDateIn.value;
+            getListingElements.domElements.dateList.appendChild(newTab)
         } else {
             return
         }

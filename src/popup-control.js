@@ -1,6 +1,6 @@
 export default function popupControl() {
     getElements.domElements.closeButton.addEventListener("click", popupFunctions.closeFormButton, false);
-    getElements.domElements.addNewButton.addEventListener('click', popupFunctions.showForm,false )
+    getElements.domElements.addNewButton.addEventListener('click', popupFunctions.showForm, false )
 }
 export {popupFunctions}
 
