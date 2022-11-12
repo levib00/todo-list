@@ -40,6 +40,7 @@ const generateListingFunctions = (() => {
         
         popupFunctions.closeForm()
         
+        return 
     }
     function createDateTab() {
         if (!getListingElements.domElements.dateList.innerHTML.includes(getListingElements.domElements.dueDateIn.value)) {
