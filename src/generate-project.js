@@ -67,7 +67,6 @@ function updateDom() {
             checklistTextBox.remove();
             executed = false
         }
-
     }
 
     let notesEdit = document.getElementById('notes-edit');
@@ -92,7 +91,6 @@ function updateDom() {
 
             notesTextBox.textContent = temp
             
-
             executed = true
 
             enterNotesText.removeEventListener('click', enterEdit, false)
@@ -148,23 +146,20 @@ function updateDom() {
         }
     }
 
+    const lowPrioCheckbox = document.getElementById('low-prio');
+    const medPrioCheckbox = document.getElementById('medium-prio');
+    const highPrioCheckbox = document.getElementById('high-prio');
     
-    //Gonna have to make every button have their own id, and change the ids ofc
-    //then notes will have a listener to change only notes and same for desc, this
-    //will also make it possible to make the checklist button add checklist items, 
-    //instead of just a wall of text. It will also be far more readable.
-    
-    /*function selectRadioButton() {
-        if (status === "Read") {
-            readCheckbox.checked = true;
-        } else if (status === "Unread") {
-            unreadCheckbox.checked = true;
-        } else if (status === "DNF") {
-            dnfCheckbox.checked = true;
-        } else if (status === "Reading") {
-            readingCheckbox.checked = true;
+    function selectRadioButton() {
+        if (projectArray[currentProject].priority === "low") {
+            lowPrioCheckbox.checked = true;
+        } else if (projectArray[currentProject].priority === "med") {
+            medPrioCheckbox.checked = true;
+        } else if (projectArray[currentProject].priority === "high") {
+            highPrioCheckbox.checked = true;
         }
-    }*/
+    }
+    selectRadioButton()
 }
 
 function Project(title, dueDate, checklist, description, notes, priority) {
