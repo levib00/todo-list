@@ -1,214 +1,185 @@
 import { getListingElements } from "./generate-listing"
-export {addNewProject, updateDom} 
+export {addNewProject, handleSelectedProject} 
 
-export default function doSomething() {
+//refactor
+
+function handleSelectedProject() { //TODO: refactor this function to make it cleaner
+    let currentProject = this.id
     
-}
-
-let projectArray = [];
-
-function updateDom() {
-    let currentProject = this.id //refactoring should fix bugs associated with multiple event listeners. will have to return this from this function to be used in edit/return functions.
+    projectFunctions.checkPrio(currentProject)
+    
     let executed = false;
-    console.log(projectArray)
-    getDomElements.domElements.projectHeaderTitle.textContent = projectArray[this.id].title;
-    getDomElements.domElements.projectHeaderDate.textContent = projectArray[this.id].dueDate;
-    getDomElements.domElements.projectChecklist.innerHTML = projectArray[this.id].checklist;
-    getDomElements.domElements.projectDescription.textContent = projectArray[this.id].description;
-    getDomElements.domElements.projectNotes.textContent = projectArray[this.id].notes;
+
+    updateDom()
     
-    let checklistEdit = document.getElementById('checklist-edit');
-    checklistEdit.addEventListener('click', editChecklist,false)
-
-    function editChecklist() {
-        var enterText = document.createElement('button')
-        let checklistTextBox = null
-        let checklistText = null
-        if (!executed) {
-            const checklistItem = document.createElement('div');
-            checklistItem.setAttribute('class','checklist-item');
-            getDomElements.domElements.projectChecklist.appendChild(checklistItem)
-
-            const checkboxContainer = document.createElement('label');
-            checkboxContainer.setAttribute('class','checkbox-container');
-            checklistItem.appendChild(checkboxContainer);
-
-            const checkbox = document.createElement('input');
-            checkbox.setAttribute('type','checkbox')
-            checkbox.setAttribute('class','check-button');
-            checkboxContainer.appendChild(checkbox);
-
-            const checkmark = document.createElement('span');
-            checkmark.setAttribute('class','checkmark');
-            checkboxContainer.appendChild(checkmark)
-
-            const element = this.parentNode.children[1]
-            enterText.setAttribute('class','enter-button')
-            enterText.textContent = 'Enter'
-            this.parentNode.insertBefore(enterText,element);
-            
-
-            checklistText = document.createElement('div');
-            checklistText.setAttribute('class','project-text');
-            checklistItem.appendChild(checklistText);
-
-            checklistTextBox = document.createElement('textarea');
-            checklistText.appendChild(checklistTextBox)
-            
-            executed = true
-        }
-
-        enterText.removeEventListener('click', enterEdit, false)
-        enterText.addEventListener('click', enterEdit, false)
-        function enterEdit() {
-            checklistText.textContent = checklistTextBox.value;
-            projectArray[currentProject].checklist = getDomElements.domElements.projectChecklist.innerHTML
-            enterText.remove();
-            checklistTextBox.remove();
-            executed = false
-        }
+    getProjectDomElements.domElements.notesEdit.thisSection = getProjectDomElements.domElements.projectNotes;
+    getProjectDomElements.domElements.notesEdit.thisProperty = 'notes';
+    
+    getProjectDomElements.domElements.descriptionEdit.thisSection = getProjectDomElements.domElements.projectDescription;
+    getProjectDomElements.domElements.descriptionEdit.thisProperty =  'description';
+ 
+    let checklistBool = false;
+    
+    if(getProjectDomElements.projectLogic.applyEventListeners) {
+        getProjectDomElements.domElements.notesEdit.addEventListener('click', editText, false); // !
+        getProjectDomElements.domElements.descriptionEdit.addEventListener('click', editText, false); // !
+        getProjectDomElements.domElements.checklistEdit.addEventListener('click', function() { // !
+            checklistBool = true;
+        });
+        getProjectDomElements.domElements.checklistEdit.addEventListener('click', editText,false) // !
+        getProjectDomElements.projectLogic.applyEventListeners = false
     }
 
-    let notesEdit = document.getElementById('notes-edit');
-    notesEdit.removeEventListener('click', editNotes, false)
-    notesEdit.addEventListener('click', editNotes, false)
-
-    function editNotes() {
-        var enterNotesText = document.createElement('button')
-        let notesTextBox = null
-
+    function editText(thisProject) {
         if (!executed) {
-            const element = this.parentNode.children[1]
-            enterNotesText.setAttribute('class','enter-button')
-            enterNotesText.textContent = 'Enter'
-            this.parentNode.insertBefore(enterNotesText,element);
+            const $this = this
+            let thisSection = thisProject.currentTarget.thisSection
+            let thisProperty = thisProject.currentTarget.thisProperty
+            
+            function editChecklist() { 
+                const checklistItem = document.createElement('div');
+                checklistItem.setAttribute('class','checklist-item');
+                getProjectDomElements.domElements.projectChecklist.appendChild(checklistItem)
+        
+                const checkboxContainer = document.createElement('label');
+                checkboxContainer.setAttribute('class','checkbox-container');
+                checklistItem.appendChild(checkboxContainer);
+        
+                const checkbox = document.createElement('input');
+                checkbox.setAttribute('type','checkbox')
+                checkbox.setAttribute('class','check-button');
+                checkboxContainer.appendChild(checkbox);
+        
+                const checkmark = document.createElement('span');
+                checkmark.setAttribute('class','checkmark');
+                checkboxContainer.appendChild(checkmark)
+        
+                let checklistText = document.createElement('div');
+                checklistText.setAttribute('class','project-text');
+                checklistItem.appendChild(checklistText);
+        
+                thisSection = checklistText
+                thisProperty = 'checklist'
+                console.log('thisSection',thisSection,'thisProperty',thisProperty)
+            }
 
-            const temp = getDomElements.domElements.projectNotes.textContent
-            getDomElements.domElements.projectNotes.textContent = ''
+            addEnterButton($this, enterEdit)
 
-            notesTextBox = document.createElement('textarea');
-            getDomElements.domElements.projectNotes.appendChild(notesTextBox)
+            if (checklistBool) {
+                editChecklist()
+            } else {
+                var temp = thisSection.textContent
+                thisSection.textContent = ''
+            }
+            
+            let textBox = document.createElement('textarea');
+            thisSection.appendChild(textBox)
 
-            notesTextBox.textContent = temp
+            textBox.textContent = temp
             
             executed = true
 
-            enterNotesText.removeEventListener('click', enterEdit, false)
-            enterNotesText.addEventListener('click', enterEdit, false)
-
             function enterEdit() {
-                console.log('dab')
-                getDomElements.domElements.projectNotes.textContent = notesTextBox.value;
-                projectArray[currentProject].notes = getDomElements.domElements.projectNotes.textContent
-                enterNotesText.remove();
-                notesTextBox.remove();
+                thisSection.textContent = textBox.value;
+                if (checklistBool) {
+                    getProjectDomElements.projectLogic.projectArray[currentProject][thisProperty] = getProjectDomElements.domElements.projectChecklist.innerHTML;
+                } else {
+                    getProjectDomElements.projectLogic.projectArray[currentProject][thisProperty] = textBox.value;
+                }
+                this.remove();
+                textBox.remove();
                 executed = false
+                checklistBool = false;
             }
         }
     }
 
-    let descriptionEdit = document.getElementById('description-edit');
-    descriptionEdit.removeEventListener('click', editDescription, false)
-    descriptionEdit.addEventListener('click', editDescription, false)
-
-    function editDescription() {
-        var enterDescriptionText = document.createElement('button')
-        let descriptionTextBox = null
-
-        if (!executed) {
-            const element = this.parentNode.children[1]
-            enterDescriptionText.setAttribute('class','enter-button')
-            enterDescriptionText.textContent = 'Enter'
-            this.parentNode.insertBefore(enterDescriptionText,element);
-
-            const temp = getDomElements.domElements.projectDescription.textContent
-            getDomElements.domElements.projectDescription.textContent = ''
-
-            descriptionTextBox = document.createElement('textarea');
-            getDomElements.domElements.projectDescription.appendChild(descriptionTextBox)
-
-            descriptionTextBox.textContent = temp
-            
-
-            executed = true
-
-            enterDescriptionText.removeEventListener('click', enterEdit, false)
-            enterDescriptionText.addEventListener('click', enterEdit, false)
-            
-            function enterEdit() {
-                console.log('dab')
-                getDomElements.domElements.projectDescription.textContent = descriptionTextBox.value;
-                projectArray[currentProject].description = getDomElements.domElements.projectDescription.textContent
-                enterDescriptionText.remove();
-                descriptionTextBox.remove();
-                executed = false
-            }
-        }
+    function addEnterButton($this, enterEdit) {
+        var enterButton = document.createElement('button')
+        const element = $this.parentNode.children[1]
+        enterButton.setAttribute('class','enter-button')
+        enterButton.textContent = 'Enter'
+        $this.parentNode.insertBefore(enterButton, element);
+        enterButton.addEventListener('click', enterEdit, false)
     }
-
-    const lowPrioCheckbox = document.getElementById('low-prio');
-    const medPrioCheckbox = document.getElementById('medium-prio');
-    const highPrioCheckbox = document.getElementById('high-prio');
     
-    function selectRadioButton() {
-        if (projectArray[currentProject].priority === "low") {
-            lowPrioCheckbox.checked = true;
-        } else if (projectArray[currentProject].priority === "med") {
-            medPrioCheckbox.checked = true;
-        } else if (projectArray[currentProject].priority === "high") {
-            highPrioCheckbox.checked = true;
-        }
+    function updateDom() {
+        getProjectDomElements.domElements.projectHeaderTitle.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].title;
+        getProjectDomElements.domElements.projectHeaderDate.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].dueDate;
+        getProjectDomElements.domElements.projectChecklist.innerHTML = getProjectDomElements.projectLogic.projectArray[currentProject].checklist;
+        getProjectDomElements.domElements.projectDescription.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].description;
+        getProjectDomElements.domElements.projectNotes.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].notes;
     }
-    selectRadioButton()
+    projectFunctions.selectRadioButton(currentProject)
 }
 
 function Project(title, dueDate, checklist, description, notes, priority) {
     this.title = title;
     this.dueDate = dueDate;
-    this.checklist = checklist;
+    this.checklist = checklist; 
     this.description = description;
     this.notes = notes;
     this.priority = priority;
 }
 
-
-function addProjectToArray(title, dueDate, checklist, description, notes, priority) {
-    const project = new Project(title, dueDate, checklist, description, notes, priority);
-    projectArray.push(project);
-    
-    console.log(projectArray)
-    console.log(project)
-}
 function addNewProject() {
     const title = getListingElements.domElements.projectNameIn.value;
     const dueDate = getListingElements.domElements.dueDateIn.value;
-    const checklist = /*checklistTextBox.value*/ null;
-    const description = /*descriptionTextBox.value*/ null;
-    const notes = /*NotesTextBox.value;*/ null;
+    const checklist = null;
+    const description = null;
+    const notes = null;
     const priority = getListingElements.domElements.priorityIn.value;
-    
-    //if (title === "" || author === "" || pages === "" || status === "") 
-    //{
-      //  return
-    //}
 
-    addProjectToArray(title, dueDate, checklist, description, notes, priority);    
+    projectFunctions.addProjectToArray(title, dueDate, checklist, description, notes, priority);    
 }
 
-const getDomElements = (() => {
+const getProjectDomElements = (() => {
     const domElements = {
         projectHeaderTitle : document.getElementById('project-header-subtitle'),
         projectHeaderDate : document.getElementById('project-date'),
         projectChecklist : document.getElementById('checklist-text'),
         projectDescription : document.getElementById('description-text'),
         projectNotes : document.getElementById('notes-text'),
-        projectPriority : document.getElementById('priority')
-        
+        projectPriority : document.getElementById('priority'),
+        lowPrioCheckbox : document.getElementById('low-prio'),
+        medPrioCheckbox : document.getElementById('medium-prio'),
+        highPrioCheckbox : document.getElementById('high-prio'),
+        descriptionEdit : document.getElementById('description-edit'),
+        notesEdit : document.getElementById('notes-edit'),
+        checklistEdit : document.getElementById('checklist-edit'),
     }
-    return {domElements}
+    const projectLogic = {
+        projectArray : [],
+        applyEventListeners : true
+    }
+    return {domElements,projectLogic}
 })()
 
-const doSomethingElse = (() => {
+const projectFunctions = (() => {
+    function selectRadioButton(currentProject) {
+        if (getProjectDomElements.projectLogic.projectArray[currentProject].priority === "low") {
+            getProjectDomElements.domElements.lowPrioCheckbox.checked = true;
+        } else if (getProjectDomElements.projectLogic.projectArray[currentProject].priority === "med") {
+            getProjectDomElements.domElements.medPrioCheckbox.checked = true;
+        } else if (getProjectDomElements.projectLogic.projectArray[currentProject].priority === "high") {
+            getProjectDomElements.domElements.highPrioCheckbox.checked = true;
+        }
+    }
 
-    return {}
+    function checkPrio(currentProject) {
+        const prioButtons = document.getElementsByClassName('prio-button');
+        for(var i = 0; i < prioButtons.length; i++) {
+            prioButtons[i].onclick = function() {
+                getProjectDomElements.projectLogic.projectArray[currentProject].priority = this.value;
+                console.log(getProjectDomElements.projectLogic.projectArray[currentProject]);
+            }
+        }
+    }
+    
+    function addProjectToArray(title, dueDate, checklist, description, notes, priority) {
+        const project = new Project(title, dueDate, checklist, description, notes, priority);
+        getProjectDomElements.projectLogic.projectArray.push(project);
+    }
+
+    return {selectRadioButton, checkPrio,addProjectToArray}
 })()

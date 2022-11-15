@@ -1,5 +1,5 @@
 import { popupFunctions } from './popup-control'
-import { addNewProject, updateDom } from './generate-project'
+import { addNewProject, handleSelectedProject } from './generate-project'
 
 export default function generateNewListing() {
     getListingElements.domElements.addButton.addEventListener('click',generateListingFunctions.handleCreateListing, false)
@@ -22,6 +22,11 @@ export { getListingElements }
 const generateListingFunctions = (() => {
     let id = 0;
     function handleCreateListing() {
+        if (getListingElements.domElements.projectNameIn.value === "" || 
+          getListingElements.domElements.dueDateIn.value === "" || 
+          getListingElements.domElements.priorityIn.value === "") {
+            return
+        }
         createDateTab()
         addNewProject()
         createProjectButton()
@@ -33,7 +38,7 @@ const generateListingFunctions = (() => {
         newButton.setAttribute('id',`${id}`)
         id++
         newButton.innerText = getListingElements.domElements.projectNameIn.value;
-        newButton.addEventListener('click',updateDom, false)
+        newButton.addEventListener('click',handleSelectedProject, false)
         
         let tempDueDate = document.getElementById(getListingElements.domElements.dueDateIn.value)
         tempDueDate.appendChild(newButton);
