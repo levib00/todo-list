@@ -26,9 +26,9 @@
                     <label for="book-status-in">Priority:</label>
                     <div class="align-right align-checkbox">
                         <select id="priority-in" required>
-                            <option value="low">Low</option>
+                            <option value="low" id="low-prio-checkbox">Low</option>
                             <option value="med">Med</option>
-                            <option value="high">High</option>
+                            <option value="high" id="high-prio-checkbox">High</option>
                         </select> *
                     </div>
                 </li>
@@ -56,7 +56,10 @@
             </div>
             <div id="project-content">
                 <div id="checklist" class="project-box">
-                    <div class="subtitle">Checklist</div>
+                    <div class="project-box-header flex-container">
+                        <div class="subtitle">Checklist</div>
+                        <button id="checklist-edit" class="checklist edit-button">+</button>
+                    </div>
                     <div class="project-box-contents" id="checklist-text">
                         <div class="checklist-item">
                             <label class="checkbox-container">
@@ -67,7 +70,7 @@
                         </div>
                         <div class="checklist-item">
                             <label class="checkbox-container">
-                                <input type="checkbox" class="check-button">
+                                <input type="checkbox" class="check-button" >
                                 <span class="checkmark"></span>
                             </label>
                             <div class="project-text">In finibus ipsum in nisl sollicitudin, vitae auctor nulla molestie. Maecenas tortor lacus, posuere vel lobortis at, volutpat a ipsum. Etiam fringilla eros non hendrerit posuere.</div>
@@ -89,7 +92,9 @@
                     </div>
                 </div>
                 <div id="priority" class="project-box">
-                    <div class="subtitle">Priority</div>
+                    <div class="project-box-header flex-container">
+                        <div class="subtitle">Priority</div>
+                    </div>
                     <div id="prio-grid">
                         <div class="prio-in-box">
                             <label for="low-prio" class="project-text">Low</label>
@@ -101,24 +106,30 @@
                             <label for="high-prio" class="project-text">High</label>
                         </div>
                         <div class="prio-in-box prio-bottom">
-                            <input type="radio" name="priority" class="prio-button" id="low-prio">
+                            <input type="radio" name="priority" class="prio-button" id="low-prio" value="low">
                         </div>
                         <div class="prio-in-box prio-bottom prio-mid">
-                            <input type="radio" name="priority" class="prio-button" id="medium-prio">
+                            <input type="radio" name="priority" class="prio-button" id="medium-prio" value="med">
                         </div>
                         <div class="prio-in-box prio-bottom">
-                            <input type="radio" name="priority" class="prio-button" id="high-prio">
+                            <input type="radio" name="priority" class="prio-button" id="high-prio" value="high">
                         </div>
                     </div>
                 </div>
                 <div id="description" class="project-box">
-                    <div class="subtitle">Description</div>
+                    <div class="project-box-header flex-container">
+                        <div class="subtitle">Description</div>
+                        <button id="description-edit" class="edit-button">+</button>
+                    </div>
                     <div class="project-box-contents">
                         <p class="project-text" id="description-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec suscipit ex. Aenean dui ligula, sollicitudin sed nulla quis, gravida accumsan diam. Nunc viverra posuere augue quis fringilla. Vestibulum tempus sed sem vehicula sollicitudin. Proin convallis dignissim augue eget condimentum. Nam vel maximus metus, aliquam cursus odio. Curabitur sit amet luctus erat. Praesent mollis venenatis pharetra. Curabitur feugiat sem ullamcorper elementum faucibus. Mauris vulputate nisi leo, sed tincidunt enim dapibus vitae. Phasellus et libero posuere, auctor purus nec, feugiat odio. Ut efficitur hendrerit elit nec dignissim. Fusce in massa eget nisi volutpat varius. </p>
                     </div>
                 </div>
                 <div id="notes" class="project-box">
-                    <div class="subtitle">Notes</div>
+                    <div class="project-box-header flex-container">
+                        <div class="subtitle">Notes</div>
+                        <button id="notes-edit" class="edit-button">+</button>
+                    </div>
                     <div class="project-box-contents">
                         <p class="project-text" id="notes-text">Cras orci eros, volutpat malesuada leo ut, gravida ultricies dolor. Phasellus accumsan mollis vestibulum. Aliquam sollicitudin mollis felis quis aliquam. Suspendisse id odio aliquam mi pretium vulputate sit amet at est.</p>
                     </div>
