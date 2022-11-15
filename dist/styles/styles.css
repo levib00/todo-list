@@ -25,6 +25,7 @@ html, body {
 }
 #hero {
     font-size: 2.2rem;
+    font-weight: 700;
 }
 #profile {
     display: flex;
@@ -182,6 +183,11 @@ p {
     color: var(--dark-color);
     height: calc(100% - 20px);
 }
+#notes,
+#description,
+#Checklist {
+    font-size: 24px;
+}
 .project-box {
     padding: 13px;
 }
@@ -322,4 +328,31 @@ form ul li {
 }
 .flex-container {
     display: flex;
+}
+.project-box-header {
+    justify-content: space-between;
+}
+.enter-button,
+.edit-button {
+    border: none;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 5px 0;
+    font-weight: 400;
+}
+.edit-button {
+    height: 35px;
+    width: 35px;
+    border-radius: 25px;
+    font-size:2rem;
+}
+.enter-button {
+    height: 35px;
+    padding: 5px;
+    border-radius: 8px;
+    font-size:1.6rem;
 }
