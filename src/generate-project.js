@@ -1,8 +1,9 @@
 import { getListingElements } from "./generate-listing"
-export {addNewProject, handleSelectedProject} 
+export {addNewProject, handleSelectedProject, getProjectDomElements} 
 
 //refactor
-
+//TODO: remove checklist items when checked and project is changed
+//TODO: add prio indicator to sidebar buttons
 function handleSelectedProject() { //TODO: refactor this function to make it cleaner
     let currentProject = this.id
     
