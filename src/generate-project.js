@@ -1,18 +1,23 @@
 import { getListingElements } from "./generate-listing"
 export {addNewProject, handleSelectedProject, getProjectDomElements} 
 
-//refactor
-//TODO: remove checklist items when checked and project is changed
+//TODO: add remove button to each checklist item when in edit mode
 //TODO: add prio indicator to sidebar buttons
 function handleSelectedProject() { //TODO: refactor this function to make it cleaner
-    let currentProject = this.id
+    if (getProjectDomElements.projectLogic.currentProject) {
+        projectFunctions.checkboxFunctions.saveCheckboxes()
+    }
+    const currentProject = this.id
+    console.log(this.id, currentProject)
+    getProjectDomElements.projectLogic.currentProject = this.id //this will let me do a lot of refactoring
     
     projectFunctions.checkPrio(currentProject)
     
     let executed = false;
 
     updateDom()
-    
+    projectFunctions.checkboxFunctions.setCheckboxes()
+
     getProjectDomElements.domElements.notesEdit.thisSection = getProjectDomElements.domElements.projectNotes;
     getProjectDomElements.domElements.notesEdit.thisProperty = 'notes';
     
@@ -22,12 +27,12 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
     let checklistBool = false;
     
     if(getProjectDomElements.projectLogic.applyEventListeners) {
-        getProjectDomElements.domElements.notesEdit.addEventListener('click', editText, false); // !
-        getProjectDomElements.domElements.descriptionEdit.addEventListener('click', editText, false); // !
-        getProjectDomElements.domElements.checklistEdit.addEventListener('click', function() { // !
+        getProjectDomElements.domElements.notesEdit.addEventListener('click', editText, false);
+        getProjectDomElements.domElements.descriptionEdit.addEventListener('click', editText, false);
+        getProjectDomElements.domElements.checklistEdit.addEventListener('click', function() {
             checklistBool = true;
         });
-        getProjectDomElements.domElements.checklistEdit.addEventListener('click', editText,false) // !
+        getProjectDomElements.domElements.checklistEdit.addEventListener('click', editText,false)
         getProjectDomElements.projectLogic.applyEventListeners = false
     }
 
@@ -50,6 +55,7 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
                 checkbox.setAttribute('type','checkbox')
                 checkbox.setAttribute('class','check-button');
                 checkboxContainer.appendChild(checkbox);
+                checkbox.addEventListener('click',projectFunctions.checkboxFunctions.checkCheckboxes,false)
         
                 const checkmark = document.createElement('span');
                 checkmark.setAttribute('class','checkmark');
@@ -83,9 +89,11 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
             function enterEdit() {
                 thisSection.textContent = textBox.value;
                 if (checklistBool) {
-                    getProjectDomElements.projectLogic.projectArray[currentProject][thisProperty] = getProjectDomElements.domElements.projectChecklist.innerHTML;
+                    console.log(getProjectDomElements.projectLogic.projectArray[currentProject])
+                    getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject][thisProperty] = getProjectDomElements.domElements.projectChecklist.innerHTML;
                 } else {
-                    getProjectDomElements.projectLogic.projectArray[currentProject][thisProperty] = textBox.value;
+                    console.log(getProjectDomElements.projectLogic.currentProject)
+                    getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject][thisProperty] = textBox.value;
                 }
                 this.remove();
                 textBox.remove();
@@ -112,9 +120,11 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
         getProjectDomElements.domElements.projectNotes.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].notes;
     }
     projectFunctions.selectRadioButton(currentProject)
+    console.log(getProjectDomElements.projectLogic.projectArray)
 }
 
-function Project(title, dueDate, checklist, description, notes, priority) {
+function Project(checkboxState, title, dueDate, checklist, description, notes, priority) {
+    this.checkboxState = checkboxState
     this.title = title;
     this.dueDate = dueDate;
     this.checklist = checklist; 
@@ -124,6 +134,7 @@ function Project(title, dueDate, checklist, description, notes, priority) {
 }
 
 function addNewProject() {
+    const checkboxState = []
     const title = getListingElements.domElements.projectNameIn.value;
     const dueDate = getListingElements.domElements.dueDateIn.value;
     const checklist = null;
@@ -131,7 +142,8 @@ function addNewProject() {
     const notes = null;
     const priority = getListingElements.domElements.priorityIn.value;
 
-    projectFunctions.addProjectToArray(title, dueDate, checklist, description, notes, priority);    
+    projectFunctions.addProjectToArray(checkboxState, title, dueDate, checklist, description, notes, priority);    
+    
 }
 
 const getProjectDomElements = (() => {
@@ -151,7 +163,8 @@ const getProjectDomElements = (() => {
     }
     const projectLogic = {
         projectArray : [],
-        applyEventListeners : true
+        applyEventListeners : true,
+        currentProject : null
     }
     return {domElements,projectLogic}
 })()
@@ -177,10 +190,49 @@ const projectFunctions = (() => {
         }
     }
     
-    function addProjectToArray(title, dueDate, checklist, description, notes, priority) {
-        const project = new Project(title, dueDate, checklist, description, notes, priority);
+    function addProjectToArray(checkboxState, title, dueDate, checklist, description, notes, priority) {
+        const project = new Project(checkboxState, title, dueDate, checklist, description, notes, priority);
         getProjectDomElements.projectLogic.projectArray.push(project);
     }
+    const checkboxFunctions = (() => { //maybe move this to its own file
+        const checkboxes = document.getElementsByClassName('check-button')
+        function checkCheckboxes() {
+            let i = 0;
+            for (const checkbox of checkboxes) {
+                if (checkbox.checked) {
+                    i++
+                    if (i === checkboxes.length) {
+                        const projectButton = document.getElementById(getProjectDomElements.projectLogic.currentProject)
+                        projectButton.setAttribute('class','sidebar-button project green')
+                    }
+                }
+            }
+        }
+        function saveCheckboxes() {
+            getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState = []
+            for (const checkbox of checkboxes) {
+                console.log()
+                if (checkbox.checked) {
+                    getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState.push('checked')
+                } else {
+                    getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState.push('unchecked')
+                }
+            }
+        }
+        function setCheckboxes() {
+            var i = 0;
+            for (const checkbox of checkboxes) {
+                console.log(getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState[i],i)
+                if (getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState[i] === 'checked') {
+                    console.log('working')
+                    checkbox.checked = true
+                    console.log(checkbox.checked)
+                }
+                i++
+            }
+        }
+        return {checkCheckboxes,saveCheckboxes,setCheckboxes}
+    })()
 
-    return {selectRadioButton, checkPrio,addProjectToArray}
+    return {selectRadioButton, checkPrio,addProjectToArray, checkboxFunctions}
 })()

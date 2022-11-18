@@ -29,7 +29,7 @@ const generateListingFunctions = (() => {
             return
         }
         createDateTab()
-        addNewProject()
+        addNewProject(id)
         createProjectButton()
     }
     function createProjectButton() {
