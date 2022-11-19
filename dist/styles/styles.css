@@ -74,7 +74,6 @@ button:hover {
     height: 35px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 .delete-button {
     width: 35px;
@@ -377,4 +376,20 @@ form ul li {
 }
 .green {
     background-color: green;
+    text-decoration: line-through;
+}
+.yellow {
+    background-color: yellow;
+}
+.red {
+    background-color: red;
+}
+.blue {
+    background-color: blue;
+}
+.prio-indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 25px;
+    margin-right: 10px;
 }
