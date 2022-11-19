@@ -1,4 +1,4 @@
-import { getListingElements } from "./generate-listing"
+import { generateListingFunctions, getListingElements } from "./generate-listing"
 export {addNewProject, handleSelectedProject, getProjectDomElements} 
 
 //TODO: add remove button to each checklist item when in edit mode
@@ -11,7 +11,7 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
     console.log(this.id, currentProject)
     getProjectDomElements.projectLogic.currentProject = this.id //this will let me do a lot of refactoring
     
-    projectFunctions.checkPrio(currentProject)
+    //projectFunctions.checkPrio(currentProject)
     
     let executed = false;
 
@@ -34,6 +34,13 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
         });
         getProjectDomElements.domElements.checklistEdit.addEventListener('click', editText,false)
         getProjectDomElements.projectLogic.applyEventListeners = false
+        for (const button of getProjectDomElements.domElements.prioButtons) {
+            button.addEventListener('click', function() {
+                generateListingFunctions.setPrioIndicator(this, getProjectDomElements.projectLogic.currentProject)
+                getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].priority = this.value;
+                console.log(this.value)
+            })
+        }
     }
 
     function editText(thisProject) {
@@ -55,7 +62,7 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
                 checkbox.setAttribute('type','checkbox')
                 checkbox.setAttribute('class','check-button');
                 checkboxContainer.appendChild(checkbox);
-                checkbox.addEventListener('click',projectFunctions.checkboxFunctions.checkCheckboxes,false)
+                checkbox.addEventListener('change',projectFunctions.checkboxFunctions.checkCheckboxes,false)
         
                 const checkmark = document.createElement('span');
                 checkmark.setAttribute('class','checkmark');
@@ -157,6 +164,7 @@ const getProjectDomElements = (() => {
         lowPrioCheckbox : document.getElementById('low-prio'),
         medPrioCheckbox : document.getElementById('medium-prio'),
         highPrioCheckbox : document.getElementById('high-prio'),
+        prioButtons : document.getElementsByClassName('prio-button'),
         descriptionEdit : document.getElementById('description-edit'),
         notesEdit : document.getElementById('notes-edit'),
         checklistEdit : document.getElementById('checklist-edit'),
@@ -184,7 +192,7 @@ const projectFunctions = (() => {
         const prioButtons = document.getElementsByClassName('prio-button');
         for(var i = 0; i < prioButtons.length; i++) {
             prioButtons[i].onclick = function() {
-                getProjectDomElements.projectLogic.projectArray[currentProject].priority = this.value;
+                
                 console.log(getProjectDomElements.projectLogic.projectArray[currentProject]);
             }
         }
@@ -194,20 +202,26 @@ const projectFunctions = (() => {
         const project = new Project(checkboxState, title, dueDate, checklist, description, notes, priority);
         getProjectDomElements.projectLogic.projectArray.push(project);
     }
+
     const checkboxFunctions = (() => { //maybe move this to its own file
         const checkboxes = document.getElementsByClassName('check-button')
         function checkCheckboxes() {
+            const projectButton = document.getElementById(getProjectDomElements.projectLogic.currentProject)
             let i = 0;
             for (const checkbox of checkboxes) {
                 if (checkbox.checked) {
                     i++
                     if (i === checkboxes.length) {
-                        const projectButton = document.getElementById(getProjectDomElements.projectLogic.currentProject)
+                        console.log(checkboxes.length,i)
                         projectButton.setAttribute('class','sidebar-button project green')
-                    }
+                    } 
+                } else {
+                    console.log(checkboxes.length,i);
+                    projectButton.setAttribute('class','sidebar-button project')
                 }
             }
         }
+
         function saveCheckboxes() {
             getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState = []
             for (const checkbox of checkboxes) {
@@ -219,9 +233,11 @@ const projectFunctions = (() => {
                 }
             }
         }
+
         function setCheckboxes() {
             var i = 0;
             for (const checkbox of checkboxes) {
+                checkbox.addEventListener('change', projectFunctions.checkboxFunctions.checkCheckboxes, false)
                 console.log(getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState[i],i)
                 if (getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState[i] === 'checked') {
                     console.log('working')

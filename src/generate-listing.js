@@ -17,8 +17,7 @@ const getListingElements = (() => {
     return {domElements}
 })()
 
-export { getListingElements }
-
+export { getListingElements,generateListingFunctions }
 
 const generateListingFunctions = (() => {
     let id = 0;
@@ -34,8 +33,7 @@ const generateListingFunctions = (() => {
     }
     function createProjectButton() {
         let tempDueDate = document.getElementById(getListingElements.domElements.dueDateIn.value)
-        
-
+    
         const listItem = document.createElement('div');
         listItem.setAttribute('class','list-item');
         tempDueDate.appendChild(listItem);
@@ -48,7 +46,13 @@ const generateListingFunctions = (() => {
         newButton.innerText = getListingElements.domElements.projectNameIn.value;
         newButton.addEventListener('click', handleSelectedProject, false)
         listItem.appendChild(newButton);
-        
+
+        const prioIndicator = document.createElement('div');
+        prioIndicator.setAttribute('class','prio-indicator');
+        prioIndicator.setAttribute('id',`indicator${id}`)
+        newButton.insertBefore(prioIndicator, newButton.firstChild);
+        setPrioIndicator(getListingElements.domElements.priorityIn,id)
+
         let deleteListingButton = document.createElement('button');
         deleteListingButton.setAttribute('class','delete-button');
         deleteListingButton.setAttribute('id',`del${id}`);
@@ -59,9 +63,22 @@ const generateListingFunctions = (() => {
         id++
 
         popupFunctions.closeForm()
-        
-        return 
     }
+
+    function setPrioIndicator(button,id) {
+        const indicator = document.getElementById(`indicator${id}`);
+        if (button.value === 'low') {
+            console.log('low',id)
+            indicator.setAttribute('class', 'prio-indicator blue')
+        } else if (button.value === 'med') {
+            console.log('med',id)
+            indicator.setAttribute('class', 'prio-indicator yellow')
+        } else if (button.value === 'high') {
+            console.log('high',id)
+            indicator.setAttribute('class', 'prio-indicator red')
+        }
+    }
+    
     function createDateTab() {
         if (!getListingElements.domElements.dateList.innerHTML.includes(getListingElements.domElements.dueDateIn.value)) {
             let newTab = document.createElement('div');
@@ -73,5 +90,5 @@ const generateListingFunctions = (() => {
             return
         }
     }
-    return {handleCreateListing}
+    return {handleCreateListing, setPrioIndicator}
 })()
