@@ -86,9 +86,27 @@ const generateListingFunctions = (() => {
             newTab.setAttribute('id',getListingElements.domElements.dueDateIn.value)
             newTab.innerText = getListingElements.domElements.dueDateIn.value;
             getListingElements.domElements.dateList.appendChild(newTab)
+
+            var sidebarItems = getListingElements.domElements.dateList.childNodes;
+            var itemsArr = [];
+            for (var i in sidebarItems) {
+                if (sidebarItems[i].nodeType == 1) { // get rid of the whitespace text nodes
+                    itemsArr.push(sidebarItems[i]);
+                }
+            }
+
+            itemsArr.sort(function(a, b) {
+            return a.innerHTML == b.innerHTML
+                    ? 0
+                    : (a.innerHTML > b.innerHTML ? 1 : -1);
+            });
+
+            for (i = 0; i < itemsArr.length; ++i) {
+                getListingElements.domElements.dateList.appendChild(itemsArr[i]);
+            }
         } else {
             return
-        }
+        } 
     }
     return {handleCreateListing, setPrioIndicator}
 })()

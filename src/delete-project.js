@@ -1,4 +1,3 @@
-
 import { getProjectDomElements } from "./generate-project";
 export function deleteListing() {
     const delIndex = this.id.slice(3);
