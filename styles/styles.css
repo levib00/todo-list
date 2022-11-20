@@ -193,6 +193,7 @@ p {
     background-color:var(--light-color);
     color: var(--dark-color);
 }
+textarea,
 #notes {
     grid-row: 2/5;
     border-left: 2px black solid;
@@ -209,8 +210,12 @@ p {
 .project-box {
     padding: 13px;
 }
+textarea,
 .project-text {
     font-size: 1.5rem;
+}
+textarea {
+    border: 3px solid black;
 }
 #priority {
     border-left: 2px black solid;
