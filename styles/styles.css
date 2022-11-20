@@ -49,7 +49,7 @@ html, body {
     background-color: #240046;
     color: var(--light-color);
 }
-#dates-container {
+#sidebar-container {
     display: flex;
     flex-direction: column;
     font-size: 1.4rem;
