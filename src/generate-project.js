@@ -1,10 +1,12 @@
-import { generateListingFunctions, getListingElements } from "./generate-listing"
-import { deleteListing } from "./delete-project"
-export {addNewProject, handleSelectedProject, getProjectDomElements} 
+import {generateListingFunctions, getListingElements} from "./generate-listing"
+import {deleteListing} from "./delete-project"
+import {checkboxFunctions} from './checklist-Functions'
+
+export {projectFunctions, handleSelectedProject, getProjectDomElements} 
 
 function handleSelectedProject() { //TODO: refactor this function to make it cleaner
     if (getProjectDomElements.projectLogic.currentProject) {
-        projectFunctions.checkboxFunctions.saveCheckboxes()
+        checkboxFunctions.saveCheckboxes()
     }
     const currentProject = this.id
     console.log(this.id, currentProject)
@@ -13,7 +15,7 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
     let executed = false;
 
     updateDom()
-    projectFunctions.checkboxFunctions.setCheckboxes()
+    checkboxFunctions.setCheckboxes()
 
     
     //console.log(localStorage.currentSidebar);
@@ -62,7 +64,7 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
                 checkbox.setAttribute('type','checkbox')
                 checkbox.setAttribute('class','check-button');
                 checkboxContainer.appendChild(checkbox);
-                checkbox.addEventListener('change',projectFunctions.checkboxFunctions.checkCheckboxes,false)
+                checkbox.addEventListener('change',checkboxFunctions.checkCheckboxes,false)
         
                 const checkmark = document.createElement('span');
                 checkmark.setAttribute('class','checkmark');
@@ -79,9 +81,8 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
                 const delItem = document.createElement('button');
                 delItem.innerHTML = '<img src="/dist/images/trash.svg" class="trash-can">';
                 delItem.setAttribute('class', 'check-del del-button')
-                delItem.addEventListener('click', function() {
-                    this.parentNode.remove()
-                })
+                delItem.addEventListener('click', checkboxFunctions.checklistDel, false)
+                
                 checklistItem.appendChild(delItem)
             }
 
@@ -138,36 +139,16 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
         
         const checkDelButtons = document.getElementsByClassName('check-del');
         for (const delButton of checkDelButtons) {
-            delButton.addEventListener('click', function() {
-                this.parentNode.remove()
-            })
+            delButton.addEventListener('click', checkboxFunctions.checklistDel, false)
         }
     }
     projectFunctions.selectRadioButton(currentProject)
     console.log(getProjectDomElements.projectLogic.projectArray)
 }
 
-function Project(checkboxState, title, dueDate, checklist, description, notes, priority) {
-    this.checkboxState = checkboxState
-    this.title = title;
-    this.dueDate = dueDate;
-    this.checklist = checklist; 
-    this.description = description;
-    this.notes = notes;
-    this.priority = priority;
-}
 
-function addNewProject() {
-    const checkboxState = []
-    const title = getListingElements.domElements.projectNameIn.value;
-    const dueDate = getListingElements.domElements.dueDateIn.value;
-    const checklist = null;
-    const description = null;
-    const notes = null;
-    const priority = getListingElements.domElements.priorityIn.value;
 
-    projectFunctions.addProjectToArray(checkboxState, title, dueDate, checklist, description, notes, priority);    
-}
+
 
 const getProjectDomElements = (() => {
     const domElements = {
@@ -224,6 +205,28 @@ const projectFunctions = (() => {
             getProjectDomElements.domElements.highPrioCheckbox.checked = true;
         }
     } 
+
+    function addNewProject() {
+        const checkboxState = []
+        const title = getListingElements.domElements.projectNameIn.value;
+        const dueDate = getListingElements.domElements.dueDateIn.value;
+        const checklist = null;
+        const description = null;
+        const notes = null;
+        const priority = getListingElements.domElements.priorityIn.value;
+    
+        projectFunctions.addProjectToArray(checkboxState, title, dueDate, checklist, description, notes, priority);    
+    }
+
+    function Project(checkboxState, title, dueDate, checklist, description, notes, priority) {
+        this.checkboxState = checkboxState
+        this.title = title;
+        this.dueDate = dueDate;
+        this.checklist = checklist; 
+        this.description = description;
+        this.notes = notes;
+        this.priority = priority;
+    }
     
     function addProjectToArray(checkboxState, title, dueDate, checklist, description, notes, priority) {
         const project = new Project(checkboxState, title, dueDate, checklist, description, notes, priority);
@@ -231,52 +234,5 @@ const projectFunctions = (() => {
         localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
     }
 
-    const checkboxFunctions = (() => { //maybe move this to its own file
-        const checkboxes = document.getElementsByClassName('check-button')
-        function checkCheckboxes() {
-            const projectButton = document.getElementById(getProjectDomElements.projectLogic.currentProject)
-            let i = 0;
-            for (const checkbox of checkboxes) {
-                if (checkbox.checked) {
-                    i++
-                    if (i === checkboxes.length) {
-                        console.log(checkboxes.length,i)
-                        projectButton.setAttribute('class','sidebar-button project green')
-                    } 
-                } else {
-                    console.log(checkboxes.length,i);
-                    projectButton.setAttribute('class','sidebar-button project')
-                }
-            }
-        }
-
-        function saveCheckboxes() {
-            getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState = []
-            for (const checkbox of checkboxes) {
-                console.log()
-                if (checkbox.checked) {
-                    getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState.push('checked')
-                } else {
-                    getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState.push('unchecked')
-                }
-            }
-        }
-
-        function setCheckboxes() {
-            var i = 0;
-            for (const checkbox of checkboxes) {
-                checkbox.addEventListener('change', projectFunctions.checkboxFunctions.checkCheckboxes, false)
-                console.log(getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState[i],i)
-                if (getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState[i] === 'checked') {
-                    console.log('working')
-                    checkbox.checked = true
-                    console.log(checkbox.checked)
-                }
-                i++
-            }
-        }
-        return {checkCheckboxes,saveCheckboxes,setCheckboxes}
-    })()
-
-    return {selectRadioButton, addProjectToArray, checkboxFunctions}
+    return {selectRadioButton, addProjectToArray}
 })()

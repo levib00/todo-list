@@ -1,5 +1,5 @@
 import { popupFunctions } from './popup-control'
-import { addNewProject, handleSelectedProject } from './generate-project'
+import { projectFunctions, handleSelectedProject } from './generate-project'
 import { deleteListing } from './delete-project'
 //TODO: make sure delete buttons work with local storage
 export default function generateNewListing() {
@@ -33,7 +33,7 @@ const generateListingFunctions = (() => {
             return
         }
         createDateTab()
-        addNewProject(id)
+        projectFunctions.addNewProject(id)
         createProjectButton()
         localStorage.setItem('currentSidebar',JSON.stringify(document.getElementById('dates-container').innerHTML))
     }

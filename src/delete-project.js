@@ -14,4 +14,6 @@ export function deleteListing() {
     }
     this.parentNode.remove()
     console.log(dateChildrenArray.length,'space', dateChildrenArray)
+    localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
+    localStorage.setItem('currentSidebar',JSON.stringify(document.getElementById('dates-container').innerHTML))
 }
