@@ -17,9 +17,6 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
     updateDom()
     checkboxFunctions.setCheckboxes()
 
-    
-    //console.log(localStorage.currentSidebar);
-
     getProjectDomElements.domElements.notesEdit.thisSection = getProjectDomElements.domElements.projectNotes;
     getProjectDomElements.domElements.notesEdit.thisProperty = 'notes';
     
@@ -45,7 +42,7 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
         }
     }
 
-    function editText(thisProject) { //maybe give own file
+    function editText(thisProject) { //! give own file
         if (!executed) {
             const $this = this
             let thisSection = thisProject.currentTarget.thisSection
@@ -215,7 +212,7 @@ const projectFunctions = (() => {
         const notes = null;
         const priority = getListingElements.domElements.priorityIn.value;
     
-        projectFunctions.addProjectToArray(checkboxState, title, dueDate, checklist, description, notes, priority);    
+        addProjectToArray(checkboxState, title, dueDate, checklist, description, notes, priority);    
     }
 
     function Project(checkboxState, title, dueDate, checklist, description, notes, priority) {
@@ -234,5 +231,5 @@ const projectFunctions = (() => {
         localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
     }
 
-    return {selectRadioButton, addProjectToArray}
+    return {selectRadioButton, addProjectToArray,addNewProject}
 })()
