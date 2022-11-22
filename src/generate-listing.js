@@ -1,7 +1,7 @@
 import { popupFunctions } from './popup-control'
 import { addNewProject, handleSelectedProject } from './generate-project'
 import { deleteListing } from './delete-project'
-
+//TODO: make sure delete buttons work with local storage
 export default function generateNewListing() {
     getListingElements.domElements.addButton.addEventListener('click',generateListingFunctions.handleCreateListing, false)
 }
@@ -21,6 +21,11 @@ export { getListingElements,generateListingFunctions }
 
 const generateListingFunctions = (() => {
     let id = 0;
+    const test = localStorage.getItem('currentId')
+    if (test ) {
+        id = test
+    }
+    console.log('id',id);
     function handleCreateListing() {
         if (getListingElements.domElements.projectNameIn.value === "" || 
           getListingElements.domElements.dueDateIn.value === "" || 
@@ -30,6 +35,7 @@ const generateListingFunctions = (() => {
         createDateTab()
         addNewProject(id)
         createProjectButton()
+        localStorage.setItem('currentSidebar',JSON.stringify(document.getElementById('dates-container').innerHTML))
     }
     function createProjectButton() {
         let tempDueDate = document.getElementById(getListingElements.domElements.dueDateIn.value)
@@ -61,6 +67,10 @@ const generateListingFunctions = (() => {
         listItem.appendChild(deleteListingButton);
         
         id++
+
+        localStorage.setItem('currentId',id);
+        
+        console.log(test); //need to set id to test, and also rename test
 
         popupFunctions.closeForm()
     }
@@ -104,9 +114,7 @@ const generateListingFunctions = (() => {
             for (i = 0; i < itemsArr.length; ++i) {
                 getListingElements.domElements.dateList.appendChild(itemsArr[i]);
             }
-        } else {
-            return
-        } 
+        }
     }
     return {handleCreateListing, setPrioIndicator}
 })()

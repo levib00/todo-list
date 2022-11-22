@@ -1,4 +1,5 @@
 import { generateListingFunctions, getListingElements } from "./generate-listing"
+import { deleteListing } from "./delete-project"
 export {addNewProject, handleSelectedProject, getProjectDomElements} 
 
 function handleSelectedProject() { //TODO: refactor this function to make it cleaner
@@ -13,6 +14,9 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
 
     updateDom()
     projectFunctions.checkboxFunctions.setCheckboxes()
+
+    
+    //console.log(localStorage.currentSidebar);
 
     getProjectDomElements.domElements.notesEdit.thisSection = getProjectDomElements.domElements.projectNotes;
     getProjectDomElements.domElements.notesEdit.thisProperty = 'notes';
@@ -111,6 +115,7 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
                 textBox.remove();
                 executed = false
                 checklistBool = false;
+                localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
             }
         }
     }
@@ -130,6 +135,13 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
         getProjectDomElements.domElements.projectChecklist.innerHTML = getProjectDomElements.projectLogic.projectArray[currentProject].checklist;
         getProjectDomElements.domElements.projectDescription.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].description;
         getProjectDomElements.domElements.projectNotes.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].notes;
+        
+        const checkDelButtons = document.getElementsByClassName('check-del');
+        for (const delButton of checkDelButtons) {
+            delButton.addEventListener('click', function() {
+                this.parentNode.remove()
+            })
+        }
     }
     projectFunctions.selectRadioButton(currentProject)
     console.log(getProjectDomElements.projectLogic.projectArray)
@@ -178,6 +190,27 @@ const getProjectDomElements = (() => {
         applyEventListeners : true,
         currentProject : null
     }
+    const loadLocalStorage = (() => { //implement try/catch
+        console.log(localStorage.currentArray);
+        if (localStorage.currentArray) {
+            const currentAray = localStorage.getItem('currentArray') 
+            projectLogic.projectArray = JSON.parse(currentAray)
+            console.log(JSON.parse(currentAray));
+        }
+        const currentSidebar = localStorage.getItem('currentSidebar');
+        console.log(currentSidebar);
+        document.getElementById('dates-container').innerHTML = JSON.parse(currentSidebar)
+
+        const projectButtons = document.getElementsByClassName('project');
+        for (const button of projectButtons) {
+            button.addEventListener('click',handleSelectedProject,false)
+        }
+
+        const delButtons = document.getElementsByClassName('delete-button');
+        for (const button of delButtons) {
+            button.addEventListener('click', deleteListing, false)
+        }
+    })()
     return {domElements,projectLogic}
 })()
 
@@ -195,6 +228,7 @@ const projectFunctions = (() => {
     function addProjectToArray(checkboxState, title, dueDate, checklist, description, notes, priority) {
         const project = new Project(checkboxState, title, dueDate, checklist, description, notes, priority);
         getProjectDomElements.projectLogic.projectArray.push(project);
+        localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
     }
 
     const checkboxFunctions = (() => { //maybe move this to its own file
