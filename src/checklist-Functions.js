@@ -1,5 +1,5 @@
-export {checkboxFunctions}
-import { getProjectDomElements} from "./generate-project"
+export { checkboxFunctions }
+import { getProjectDomElements } from "./generate-project"
 
 const checkboxFunctions = (() => { //maybe move this to its own file
     const checkboxes = document.getElementsByClassName('check-button')
@@ -10,12 +10,12 @@ const checkboxFunctions = (() => { //maybe move this to its own file
             if (checkbox.checked) {
                 i++
                 if (i === checkboxes.length) {
-                    console.log(checkboxes.length,i)
                     projectButton.setAttribute('class','sidebar-button project green')
+                    localStorage.setItem('currentSidebar',JSON.stringify(document.getElementById('dates-container').innerHTML))
                 } 
             } else {
-                console.log(checkboxes.length,i);
                 projectButton.setAttribute('class','sidebar-button project')
+                localStorage.setItem('currentSidebar',JSON.stringify(document.getElementById('dates-container').innerHTML))
             }
         }
     }
@@ -26,16 +26,18 @@ const checkboxFunctions = (() => { //maybe move this to its own file
         getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checklist = getProjectDomElements.domElements.projectChecklist.innerHTML
         localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
         //console.log(getProjectDomElements.projectLogic.projectArray,'sep', localStorage.currentArray);
+        checkCheckboxes()
     }
 
     function saveCheckboxes() {
         getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState = []
         for (const checkbox of checkboxes) {
-            console.log()
             if (checkbox.checked) {
                 getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState.push('checked')
+                localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
             } else {
                 getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState.push('unchecked')
+                localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
             }
         }
     }

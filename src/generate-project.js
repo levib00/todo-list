@@ -1,20 +1,22 @@
-import {generateListingFunctions, getListingElements} from "./generate-listing"
-import {deleteListing} from "./delete-project"
-import {checkboxFunctions} from './checklist-Functions'
+import { generateListingFunctions, getListingElements } from "./generate-listing"
+import { checkboxFunctions } from './checklist-Functions'
+import { editText } from "./edit-project"
 
 export {projectFunctions, handleSelectedProject, getProjectDomElements} 
 
-function handleSelectedProject() { //TODO: refactor this function to make it cleaner
+function handleSelectedProject() {
     if (getProjectDomElements.projectLogic.currentProject) {
+        try{
         checkboxFunctions.saveCheckboxes()
+        } catch {
+        }
     }
-    const currentProject = this.id
-    console.log(this.id, currentProject)
-    getProjectDomElements.projectLogic.currentProject = this.id //this will let me do a lot of refactoring
+
+    getProjectDomElements.projectLogic.currentProject = this.id
     
     let executed = false;
 
-    updateDom()
+    projectFunctions.updateDom()
     checkboxFunctions.setCheckboxes()
 
     getProjectDomElements.domElements.notesEdit.thisSection = getProjectDomElements.domElements.projectNotes;
@@ -22,130 +24,31 @@ function handleSelectedProject() { //TODO: refactor this function to make it cle
     
     getProjectDomElements.domElements.descriptionEdit.thisSection = getProjectDomElements.domElements.projectDescription;
     getProjectDomElements.domElements.descriptionEdit.thisProperty =  'description';
- 
-    let checklistBool = false;
-    
+   
     if(getProjectDomElements.projectLogic.applyEventListeners) {
-        getProjectDomElements.domElements.notesEdit.addEventListener('click', editText, false);
-        getProjectDomElements.domElements.descriptionEdit.addEventListener('click', editText, false);
+        getProjectDomElements.domElements.notesEdit.addEventListener('click',function() {
+            editText(this, executed);
+        }, false);
+        getProjectDomElements.domElements.descriptionEdit.addEventListener('click', function() {
+            editText(this, executed);
+        }, false);
         getProjectDomElements.domElements.checklistEdit.addEventListener('click', function() {
-            checklistBool = true;
-        });
-        getProjectDomElements.domElements.checklistEdit.addEventListener('click', editText,false)
+            getProjectDomElements.projectLogic.checklistBool = true;
+            editText(this, executed)
+        },false);
         getProjectDomElements.projectLogic.applyEventListeners = false
         for (const button of getProjectDomElements.domElements.prioButtons) {
             button.addEventListener('click', function() {
                 generateListingFunctions.setPrioIndicator(this, getProjectDomElements.projectLogic.currentProject)
                 getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].priority = this.value;
-                console.log(this.value)
+                localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
+                localStorage.setItem('currentSidebar',JSON.stringify(document.getElementById('dates-container').innerHTML))
             })
         }
     }
-
-    function editText(thisProject) { //! give own file
-        if (!executed) {
-            const $this = this
-            let thisSection = thisProject.currentTarget.thisSection
-            let thisProperty = thisProject.currentTarget.thisProperty
-            
-            function editChecklist() {   
-                const checklistItem = document.createElement('div');
-                checklistItem.setAttribute('class','checklist-item');
-                getProjectDomElements.domElements.projectChecklist.appendChild(checklistItem)
-        
-                const checkboxContainer = document.createElement('label');
-                checkboxContainer.setAttribute('class','checkbox-container');
-                checklistItem.appendChild(checkboxContainer);
-        
-                const checkbox = document.createElement('input');
-                checkbox.setAttribute('type','checkbox')
-                checkbox.setAttribute('class','check-button');
-                checkboxContainer.appendChild(checkbox);
-                checkbox.addEventListener('change',checkboxFunctions.checkCheckboxes,false)
-        
-                const checkmark = document.createElement('span');
-                checkmark.setAttribute('class','checkmark');
-                checkboxContainer.appendChild(checkmark)
-        
-                let checklistText = document.createElement('div');
-                checklistText.setAttribute('class','project-text');
-                checklistItem.appendChild(checklistText);
-        
-                thisSection = checklistText
-                thisProperty = 'checklist'
-                console.log('thisSection',thisSection,'thisProperty',thisProperty)
-
-                const delItem = document.createElement('button');
-                delItem.innerHTML = '<img src="/dist/images/trash.svg" class="trash-can">';
-                delItem.setAttribute('class', 'check-del del-button')
-                delItem.addEventListener('click', checkboxFunctions.checklistDel, false)
-                
-                checklistItem.appendChild(delItem)
-            }
-
-            addEnterButton($this, enterEdit)
-
-            if (checklistBool) {
-                editChecklist()
-            } else {
-                var temp = thisSection.textContent
-                thisSection.textContent = ''
-            }
-            
-            let textBox = document.createElement('textarea');
-            textBox.setAttribute('class', 'text-area')
-            thisSection.appendChild(textBox)
-
-            textBox.textContent = temp
-            
-            executed = true
-
-            function enterEdit() {
-                thisSection.textContent = textBox.value;
-                if (checklistBool) {
-                    console.log(getProjectDomElements.projectLogic.projectArray[currentProject])
-                    getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject][thisProperty] = getProjectDomElements.domElements.projectChecklist.innerHTML;
-                } else {
-                    console.log(getProjectDomElements.projectLogic.currentProject)
-                    getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject][thisProperty] = textBox.value;
-                }
-                this.remove();
-                textBox.remove();
-                executed = false
-                checklistBool = false;
-                localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
-            }
-        }
-    }
-
-    function addEnterButton($this, enterEdit) {
-        var enterButton = document.createElement('button')
-        const element = $this.parentNode.children[1]
-        enterButton.setAttribute('class','enter-button')
-        enterButton.textContent = 'Enter'
-        $this.parentNode.insertBefore(enterButton, element);
-        enterButton.addEventListener('click', enterEdit, false)
-    }
     
-    function updateDom() {
-        getProjectDomElements.domElements.projectHeaderTitle.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].title;
-        getProjectDomElements.domElements.projectHeaderDate.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].dueDate;
-        getProjectDomElements.domElements.projectChecklist.innerHTML = getProjectDomElements.projectLogic.projectArray[currentProject].checklist;
-        getProjectDomElements.domElements.projectDescription.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].description;
-        getProjectDomElements.domElements.projectNotes.textContent = getProjectDomElements.projectLogic.projectArray[currentProject].notes;
-        
-        const checkDelButtons = document.getElementsByClassName('check-del');
-        for (const delButton of checkDelButtons) {
-            delButton.addEventListener('click', checkboxFunctions.checklistDel, false)
-        }
-    }
-    projectFunctions.selectRadioButton(currentProject)
-    console.log(getProjectDomElements.projectLogic.projectArray)
+    projectFunctions.selectRadioButton(getProjectDomElements.projectLogic.currentProject)
 }
-
-
-
-
 
 const getProjectDomElements = (() => {
     const domElements = {
@@ -166,33 +69,26 @@ const getProjectDomElements = (() => {
     const projectLogic = {
         projectArray : [],
         applyEventListeners : true,
-        currentProject : null
+        currentProject : null,
+        checklistBool : false,
     }
-    const loadLocalStorage = (() => { //implement try/catch
-        console.log(localStorage.currentArray);
-        if (localStorage.currentArray) {
-            const currentAray = localStorage.getItem('currentArray') 
-            projectLogic.projectArray = JSON.parse(currentAray)
-            console.log(JSON.parse(currentAray));
-        }
-        const currentSidebar = localStorage.getItem('currentSidebar');
-        console.log(currentSidebar);
-        document.getElementById('dates-container').innerHTML = JSON.parse(currentSidebar)
-
-        const projectButtons = document.getElementsByClassName('project');
-        for (const button of projectButtons) {
-            button.addEventListener('click',handleSelectedProject,false)
-        }
-
-        const delButtons = document.getElementsByClassName('delete-button');
-        for (const button of delButtons) {
-            button.addEventListener('click', deleteListing, false)
-        }
-    })()
     return {domElements,projectLogic}
 })()
 
 const projectFunctions = (() => {
+    function updateDom() {
+        getProjectDomElements.domElements.projectHeaderTitle.textContent = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].title;
+        getProjectDomElements.domElements.projectHeaderDate.textContent = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].dueDate;
+        getProjectDomElements.domElements.projectChecklist.innerHTML = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checklist;
+        getProjectDomElements.domElements.projectDescription.textContent = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].description;
+        getProjectDomElements.domElements.projectNotes.textContent = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].notes;
+        
+        const checkDelButtons = document.getElementsByClassName('check-del');
+        for (const delButton of checkDelButtons) {
+            delButton.addEventListener('click', checkboxFunctions.checklistDel, false)
+        }
+    }
+
     function selectRadioButton(currentProject) {
         if (getProjectDomElements.projectLogic.projectArray[currentProject].priority === "low") {
             getProjectDomElements.domElements.lowPrioCheckbox.checked = true;
@@ -230,6 +126,5 @@ const projectFunctions = (() => {
         getProjectDomElements.projectLogic.projectArray.push(project);
         localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
     }
-
-    return {selectRadioButton, addProjectToArray,addNewProject}
+    return {selectRadioButton, addProjectToArray,addNewProject,updateDom}
 })()
