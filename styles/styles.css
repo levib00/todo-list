@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/*refactor*/
 :root {
     --dark-color: #240046;
     --light-color: rgb(248, 240, 255);
@@ -397,4 +398,7 @@ form ul li {
     height: 15px;
     border-radius: 25px;
     margin-right: 10px;
+}
+.unclickable {
+    pointer-events: none;
 }
