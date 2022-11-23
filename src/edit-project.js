@@ -85,6 +85,7 @@ function addEnterButton(thisProject, enterEdit) {
     var enterButton = document.createElement('button')
     const element = thisProject.parentNode.children[1]
     enterButton.setAttribute('class','enter-button')
+    enterButton.setAttribute('id','enter-button')
     enterButton.textContent = 'Enter'
     thisProject.parentNode.insertBefore(enterButton, element);
     enterButton.addEventListener('click', enterEdit, false)

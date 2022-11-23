@@ -1,7 +1,22 @@
 import { getProjectDomElements } from "./generate-project";
-export function deleteListing() {
+export function deleteListing() { 
     const delIndex = this.id.slice(3);
-    console.log(getProjectDomElements.projectLogic.projectArray)
+
+    if (getProjectDomElements.projectLogic.currentProject === delIndex) {
+        getProjectDomElements.domElements.contentArea.setAttribute('class','unclickable');
+        getProjectDomElements.domElements.projectHeaderTitle.textContent = 'Select a project';
+        getProjectDomElements.domElements.projectHeaderDate.textContent = '';
+        getProjectDomElements.domElements.projectChecklist.innerHTML = '';
+        getProjectDomElements.domElements.projectDescription.textContent = '';
+        getProjectDomElements.domElements.projectNotes.textContent = '';
+        getProjectDomElements.domElements.lowPrioCheckbox.checked = false;
+        getProjectDomElements.domElements.medPrioCheckbox.checked = false;
+        getProjectDomElements.domElements.highPrioCheckbox.checked = false;
+        try {
+            document.getElementById('enter-button').remove()
+        }catch{}
+    }
+
     delete getProjectDomElements.projectLogic.projectArray[delIndex]
     const thisListing = this.parentNode
     

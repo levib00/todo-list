@@ -12,6 +12,8 @@ function handleSelectedProject() {
         }
     }
 
+    getProjectDomElements.domElements.contentArea.setAttribute('class', '')
+
     getProjectDomElements.projectLogic.currentProject = this.id
     
     let executed = false;
@@ -65,6 +67,7 @@ const getProjectDomElements = (() => {
         descriptionEdit : document.getElementById('description-edit'),
         notesEdit : document.getElementById('notes-edit'),
         checklistEdit : document.getElementById('checklist-edit'),
+        contentArea : document.getElementById('project-content')
     }
     const projectLogic = {
         projectArray : [],
