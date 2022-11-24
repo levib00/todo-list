@@ -3,14 +3,13 @@ export { editText }
 import { getProjectDomElements } from "./generate-project"
 import { checkboxFunctions } from "./checklist-Functions"
 
-function editText(thisProject,executed) {
-    console.log(thisProject, executed)
-    if (!executed) {
+function editText(thisProject,executed) {//edits text of areas in content area thisProject is the edit button that was clicked.
+    if (!executed) { //ensures that edit button doesn't do anything until the enter button is pressed.
         const tempThisProject = thisProject
-        let thisSection = thisProject.thisSection
+        let thisSection = thisProject.thisSection //sets prototype to variables
         let thisProperty = thisProject.thisProperty
         
-        function editChecklist() {   
+        function editChecklist() {   //edits checklist specifically because checklist needs to create items such as checkboxes.
             const checklistItem = document.createElement('div');
             checklistItem.setAttribute('class','checklist-item');
             getProjectDomElements.domElements.projectChecklist.appendChild(checklistItem)
@@ -33,9 +32,8 @@ function editText(thisProject,executed) {
             checklistText.setAttribute('class','project-text');
             checklistItem.appendChild(checklistText);
     
-            thisSection = checklistText
+            thisSection = checklistText //sets prototype variables to checklist.
             thisProperty = 'checklist'
-            console.log('thisSection',thisSection,'thisProperty',thisProperty)
 
             const delItem = document.createElement('button');
             delItem.innerHTML = '<img src="/dist/images/trash.svg" class="trash-can">';
@@ -44,13 +42,12 @@ function editText(thisProject,executed) {
             
             checklistItem.appendChild(delItem)
         }
-        console.log(thisProject)
         addEnterButton(tempThisProject, enterEdit)
 
         if (getProjectDomElements.projectLogic.checklistBool) {
             editChecklist()
         } else {
-            var temp = thisSection.textContent
+            var temp = thisSection.textContent //temp is to hold the text in the textbox while the textarea is open so that the textbox can be empty except for the textarea
             thisSection.textContent = ''
         }
         
@@ -62,7 +59,7 @@ function editText(thisProject,executed) {
         
         executed = true
 
-        function enterEdit() {
+        function enterEdit() { //sends the edit and saves it to local storage
             thisSection.textContent = textBox.value;
              if (getProjectDomElements.projectLogic.checklistBool) {
                  console.log(getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject])
@@ -81,7 +78,7 @@ function editText(thisProject,executed) {
     }
 }
 
-function addEnterButton(thisProject, enterEdit) {
+function addEnterButton(thisProject, enterEdit) { //creates enter button.
     var enterButton = document.createElement('button')
     const element = thisProject.parentNode.children[1]
     enterButton.setAttribute('class','enter-button')

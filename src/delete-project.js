@@ -1,5 +1,5 @@
 import { getProjectDomElements } from "./generate-project";
-export function deleteListing() { 
+export function deleteListing() { //handles deleting buttons from sidebar and info from project array
     const delIndex = this.id.slice(3);
 
     if (getProjectDomElements.projectLogic.currentProject === delIndex) {
@@ -28,7 +28,6 @@ export function deleteListing() {
         this.parentNode.parentNode.remove();
     }
     this.parentNode.remove()
-    console.log(dateChildrenArray.length,'space', dateChildrenArray)
     localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
     localStorage.setItem('currentSidebar',JSON.stringify(document.getElementById('dates-container').innerHTML))
 }

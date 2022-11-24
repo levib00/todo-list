@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-/*refactor*/
 :root {
     --dark-color: #240046;
     --light-color: rgb(248, 240, 255);
@@ -53,7 +52,7 @@ html, body {
 #sidebar-container {
     display: flex;
     flex-direction: column;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     height: calc(100% - 100px);
     overflow-y: auto;
 }
@@ -65,7 +64,7 @@ button:hover {
     flex-wrap: nowrap;
 }
 .sidebar-button {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     padding-left: 10px;
     text-align: left;
     border: black 1px solid;
@@ -101,7 +100,7 @@ button:hover {
 }
 #project-content {
     display: grid;
-    grid-template: repeat(4, 192px) / 4fr 1fr;
+    grid-template: repeat(4, 192px) / 4fr 20%;
     height: calc(100% - 46px);
     border: black 2px solid;
 }
@@ -203,11 +202,6 @@ textarea,
     color: var(--dark-color);
     height: calc(100% - 20px);
 }
-#notes,
-#description,
-#Checklist {
-    font-size: 24px;
-}
 .project-box {
     padding: 13px;
 }
@@ -217,6 +211,8 @@ textarea,
 }
 textarea {
     border: 3px solid black;
+    width: 80%;
+    height: 50%;
 }
 #priority {
     border-left: 2px black solid;
@@ -275,7 +271,7 @@ textarea {
     z-index: 1;
     border: 8px var(--dark-color) solid;
     padding: 8px;
-    font-size:1.3rem ;
+    font-size:1.5rem ;
     visibility: hidden;
     outline: #000 3px solid;
 }
@@ -318,7 +314,7 @@ form ul li {
     background-color: var(--dark-color);
     border: black 2px solid;
     border-radius: 7px;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     color: var(--light-color);
 }
 .show {
@@ -378,7 +374,7 @@ form ul li {
     height: 35px;
     padding: 5px;
     border-radius: 8px;
-    font-size:1.6rem;
+    font-size:1.5rem;
 }
 .green {
     background-color: green;

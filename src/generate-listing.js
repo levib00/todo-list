@@ -1,12 +1,12 @@
 import { popupFunctions } from './popup-control'
 import { projectFunctions, handleSelectedProject } from './generate-project'
 import { deleteListing } from './delete-project'
-//TODO: make sure delete buttons work with local storage
+
 export default function generateNewListing() {
     getListingElements.domElements.addButton.addEventListener('click',generateListingFunctions.handleCreateListing, false)
 }
 
-const getListingElements = (() => {
+const getListingElements = (() => { //holds dom elements needed to create sidebar listing
     const domElements = {
         projectNameIn : document.getElementById('project-name-in'),
         dueDateIn : document.getElementById('due-date-in'),
@@ -21,12 +21,11 @@ export { getListingElements,generateListingFunctions }
 
 const generateListingFunctions = (() => {
     let id = 0;
-    const test = localStorage.getItem('currentId')
-    if (test ) {
-        id = test
+    const currentId = localStorage.getItem('currentId')
+    if (currentId) {
+        id = currentId
     }
-    console.log('id',id);
-    function handleCreateListing() {
+    function handleCreateListing() {//creates the sidebar buttons and date tabs if inputs on add form are populated.
         if (getListingElements.domElements.projectNameIn.value === "" || 
           getListingElements.domElements.dueDateIn.value === "" || 
           getListingElements.domElements.priorityIn.value === "") {
@@ -69,13 +68,11 @@ const generateListingFunctions = (() => {
         id++
 
         localStorage.setItem('currentId',id);
-        
-        console.log(test); //need to set id to test, and also rename test
 
         popupFunctions.closeForm()
     }
 
-    function setPrioIndicator(button,id) {
+    function setPrioIndicator(button,id) { //sets priority indicator on the sidebar buttons to associated project.
         const indicator = document.getElementById(`indicator${id}`);
         if (button.value === 'low') {
             console.log('low',id)
@@ -89,7 +86,7 @@ const generateListingFunctions = (() => {
         }
     }
     
-    function createDateTab() {
+    function createDateTab() {//creates date tab if the due date isn't set on another project.
         if (!getListingElements.domElements.dateList.innerHTML.includes(getListingElements.domElements.dueDateIn.value)) {
             let newTab = document.createElement('div');
             newTab.setAttribute('class','date-sub-header subtitle')
@@ -97,18 +94,16 @@ const generateListingFunctions = (() => {
             newTab.innerText = getListingElements.domElements.dueDateIn.value;
             getListingElements.domElements.dateList.appendChild(newTab)
 
-            var sidebarItems = getListingElements.domElements.dateList.childNodes;
-            var itemsArr = [];
+            var sidebarItems = getListingElements.domElements.dateList.childNodes; //sorts due-dates by closest to year 0 to furthest in the future.
+            var itemsArr = []; 
             for (var i in sidebarItems) {
-                if (sidebarItems[i].nodeType == 1) { // get rid of the whitespace text nodes
+                if (sidebarItems[i].nodeType == 1) { 
                     itemsArr.push(sidebarItems[i]);
                 }
             }
 
             itemsArr.sort(function(a, b) {
-            return a.innerHTML == b.innerHTML
-                    ? 0
-                    : (a.innerHTML > b.innerHTML ? 1 : -1);
+            return a.innerHTML == b.innerHTML ? 0 : (a.innerHTML > b.innerHTML ? 1 : -1);
             });
 
             for (i = 0; i < itemsArr.length; ++i) {

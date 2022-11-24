@@ -4,7 +4,7 @@ import { editText } from "./edit-project"
 
 export {projectFunctions, handleSelectedProject, getProjectDomElements} 
 
-function handleSelectedProject() {
+function handleSelectedProject() { //sets logic for buttons to edit individual projects 
     if (getProjectDomElements.projectLogic.currentProject) {
         try{
         checkboxFunctions.saveCheckboxes()
@@ -12,22 +12,22 @@ function handleSelectedProject() {
         }
     }
 
-    getProjectDomElements.domElements.contentArea.setAttribute('class', '')
+    getProjectDomElements.domElements.contentArea.setAttribute('class', '') //makes sure that contentArea doesn't still have unlickable class from delete-listing
 
     getProjectDomElements.projectLogic.currentProject = this.id
     
-    let executed = false;
+    let executed = false; //if true, edit buttons cant be pressed again until enter button is pressed.
 
     projectFunctions.updateDom()
     checkboxFunctions.setCheckboxes()
 
+    //gives prototype attributes to differentiate which project is being worked on
     getProjectDomElements.domElements.notesEdit.thisSection = getProjectDomElements.domElements.projectNotes;
     getProjectDomElements.domElements.notesEdit.thisProperty = 'notes';
-    
     getProjectDomElements.domElements.descriptionEdit.thisSection = getProjectDomElements.domElements.projectDescription;
     getProjectDomElements.domElements.descriptionEdit.thisProperty =  'description';
    
-    if(getProjectDomElements.projectLogic.applyEventListeners) {
+    if(getProjectDomElements.projectLogic.applyEventListeners) { //ensures that event listeners are only added once
         getProjectDomElements.domElements.notesEdit.addEventListener('click',function() {
             editText(this, executed);
         }, false);
@@ -48,12 +48,11 @@ function handleSelectedProject() {
             })
         }
     }
-    
     projectFunctions.selectRadioButton(getProjectDomElements.projectLogic.currentProject)
 }
 
 const getProjectDomElements = (() => {
-    const domElements = {
+    const domElements = { //holds domElements in content area
         projectHeaderTitle : document.getElementById('project-header-subtitle'),
         projectHeaderDate : document.getElementById('project-date'),
         projectChecklist : document.getElementById('checklist-text'),
@@ -69,7 +68,7 @@ const getProjectDomElements = (() => {
         checklistEdit : document.getElementById('checklist-edit'),
         contentArea : document.getElementById('project-content')
     }
-    const projectLogic = {
+    const projectLogic = { //holds some of the logic used in handle project button
         projectArray : [],
         applyEventListeners : true,
         currentProject : null,
@@ -79,7 +78,7 @@ const getProjectDomElements = (() => {
 })()
 
 const projectFunctions = (() => {
-    function updateDom() {
+    function updateDom() {//updates dom to show current projects information
         getProjectDomElements.domElements.projectHeaderTitle.textContent = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].title;
         getProjectDomElements.domElements.projectHeaderDate.textContent = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].dueDate;
         getProjectDomElements.domElements.projectChecklist.innerHTML = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checklist;
@@ -87,12 +86,12 @@ const projectFunctions = (() => {
         getProjectDomElements.domElements.projectNotes.textContent = getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].notes;
         
         const checkDelButtons = document.getElementsByClassName('check-del');
-        for (const delButton of checkDelButtons) {
+        for (const delButton of checkDelButtons) { //reapplies checklist delete event listeners when new project is loaded
             delButton.addEventListener('click', checkboxFunctions.checklistDel, false)
         }
     }
 
-    function selectRadioButton(currentProject) {
+    function selectRadioButton(currentProject) { //sets priority radio buttons from project array
         if (getProjectDomElements.projectLogic.projectArray[currentProject].priority === "low") {
             getProjectDomElements.domElements.lowPrioCheckbox.checked = true;
         } else if (getProjectDomElements.projectLogic.projectArray[currentProject].priority === "med") {
@@ -102,7 +101,7 @@ const projectFunctions = (() => {
         }
     } 
 
-    function addNewProject() {
+    function addNewProject() { //gets information to pass to new Project statement
         const checkboxState = []
         const title = getListingElements.domElements.projectNameIn.value;
         const dueDate = getListingElements.domElements.dueDateIn.value;

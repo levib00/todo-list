@@ -1,9 +1,9 @@
 export { checkboxFunctions }
 import { getProjectDomElements } from "./generate-project"
 
-const checkboxFunctions = (() => { //maybe move this to its own file
+const checkboxFunctions = (() => { 
     const checkboxes = document.getElementsByClassName('check-button')
-    function checkCheckboxes() {
+    function checkCheckboxes() { //checks to see if checkboxes are checked, if so highlights the sidebar button green and stores the status of the button in local storage
         const projectButton = document.getElementById(getProjectDomElements.projectLogic.currentProject)
         let i = 0;
         for (const checkbox of checkboxes) {
@@ -20,16 +20,14 @@ const checkboxFunctions = (() => { //maybe move this to its own file
         }
     }
 
-    function checklistDel() {
-        //console.log(getProjectDomElements.projectLogic.projectArray,'sep',localStorage.currentArray);
+    function checklistDel() {//handles deleting items from the checklist
         this.parentNode.remove()
         getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checklist = getProjectDomElements.domElements.projectChecklist.innerHTML
         localStorage.setItem('currentArray', JSON.stringify(getProjectDomElements.projectLogic.projectArray))
-        //console.log(getProjectDomElements.projectLogic.projectArray,'sep', localStorage.currentArray);
         checkCheckboxes()
     }
 
-    function saveCheckboxes() {
+    function saveCheckboxes() { //saves checklist items to array and local storage
         getProjectDomElements.projectLogic.projectArray[getProjectDomElements.projectLogic.currentProject].checkboxState = []
         for (const checkbox of checkboxes) {
             if (checkbox.checked) {
@@ -42,7 +40,7 @@ const checkboxFunctions = (() => { //maybe move this to its own file
         }
     }
 
-    function setCheckboxes() {
+    function setCheckboxes() { //sets checkbox status from project array
         var i = 0;
         for (const checkbox of checkboxes) {
             checkbox.addEventListener('change', checkCheckboxes, false)

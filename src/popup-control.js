@@ -5,8 +5,8 @@ export default function popupControl() {
 export {popupFunctions}
 
 
-const popupFunctions = (() => {
-    function closeFormButton() {
+const popupFunctions = (() => { 
+    function closeFormButton() {//close form without adding a new project.
         console.log(document.getElementById("project-name-in").value)
         document.getElementById("project-name-in").innerText = "";
         document.getElementById("due-date-in").value = "";
@@ -14,24 +14,25 @@ const popupFunctions = (() => {
         
         closeForm()
     }
+
     function finishFadeOut() {
         getElements.domElements.popup.classList.remove("show");
     }
-    function closeForm() {
+
+    function closeForm() {//closes form
         getElements.domElements.popup.setAttribute("class","show hide");
         getElements.domElements.header.classList.remove("blur");
         getElements.domElements.content.classList.remove("blur");
         setTimeout(finishFadeOut, 200)
     }
 
-    function showForm() {
+    function showForm() { //shows form on add new button press
         getElements.domElements.popup.setAttribute("class","show");
         getElements.domElements.content.setAttribute("class","blur");
         getElements.domElements.header.setAttribute("class", "blur");
     }
     return {closeForm, showForm, closeFormButton}
 })()
-
 
 const getElements = (() => {
     const domElements = {
